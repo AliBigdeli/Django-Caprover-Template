@@ -19,6 +19,14 @@
     - [install caprover on docker](#install-caprover-on-docker)
     - [connect your domain to the server](#connect-your-domain-to-the-server)
     - [install Caprover CLI](#install-caprover-cli)
+- [Setup PostgresDB App](#setup-postgresdb-app)
+  - [create the app](#create-the-app)
+  - [configurations](#configurations)
+- [Setup Django Application](#setup-django-application)
+  - [Setup Environments](#setup-environments)
+  - [Create the Directories in nginx-shared](#create-the-directories-in-nginx-shared)
+  - [Setup Nginx to support Media](#setup-nginx-to-support-media)
+  - [Setup Persistent Data](#setup-persistent-data)
 
 
 # Caprover
@@ -111,4 +119,55 @@ For more details and docs see CapRover.com
 
 ```
 
+# Setup PostgresDB App
 
+## create the app
+in order to create a postgresdb app you can head to one click app section and search for postgres and click on it. then you will be asked to enter following datas:
+```
+App Name : anything you want to name but will be used as domain name for app or internal service
+Version : the image version of docker which you need to be installed
+Username : obviously the username of default database
+Password : obviously the password of default database
+Default Database : obviously the password of default database
+Optional Arguments: what ever you deem necessary to have
+```
+## configurations
+
+for your django application to work you need to have these parameters:
+
+```
+PGDB_ENGINE=django.db.backends.postgresql
+PGDB_NAME=DATABASE_NAME
+PGDB_USER=USERNAME
+PGDB_PASS=PASSWORD
+PGDB_HOST=srv-captain-YOUR_APP_NAME
+PGDB_PORT=5432
+```
+all the parameters can be found in the application configuration pages like HTTP Settings will give you the application internal host name and App Configs section will give you the variables for connecting to database.
+
+
+# Setup Django Application
+in the Apps page first enter the name of the application and then check Has Persistent Data in order to support uploading files and using disk in django app.
+
+
+
+
+## Setup Environments
+
+
+
+## Create the Directories in nginx-shared
+
+## Setup Nginx to support Media
+```
+location /media/ {
+    alias /nginx-shared/APPLICATION_NAME/media/;
+   }
+
+```
+
+## Setup Persistent Data
+
+```
+/captain/data/nginx-shared/APPLICATION_NAME/media
+```

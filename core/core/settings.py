@@ -170,3 +170,11 @@ if config("USE_SSL_CONFIG", cast=bool, default=False):
     SECURE_REFERRER_POLICY = "strict-origin"
     USE_X_FORWARDED_HOST = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
+    
+# production whitenoise
+if config("ENABLE_WHITENOISE", cast=bool, default=False):
+    # Insert Whitenoise Middleware.
+    MIDDLEWARE += [
+        "whitenoise.middleware.WhiteNoiseMiddleware",
+    ]
+    STATICFILES_STORAGE = 'whitenoise.storage.StaticFilesStorage'
